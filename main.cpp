@@ -29,7 +29,6 @@ int main(){
 
   // Initialize particles
   std::vector<Particle*> particles;
-  particles.push_back(new Particle());
 
   // Initialize physics engine
   Physics physics();
