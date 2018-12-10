@@ -5,6 +5,8 @@
 
 // Libraries
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <vector>
 
 // Classes
 #include "particle.hpp"
