@@ -44,33 +44,58 @@ public:
   inline float getSpeed(){ return this->speed; }
 
   // Public functions
-  void addParticleCustom(float weight = 1.f, float bounciness = 1.f, float ice = 1.f, bool solid = true, bool liquid = false, bool gas = false, float freezingTemp = 1.f, float meltingTemp = 1.f){
+  void addParticleCustom(sf::Vector2f pos, float weight = 1.f, float bounciness = 1.f, float ice = 1.f, bool solid = true, bool liquid = false, bool gas = false, float freezingTemp = 1.f, float meltingTemp = 1.f, float R = 0.f, float G = 0.f, float B = 0.f){
     int index = this->particles.size();
-    Material currentMaterial = { bounciness, weight, ice, freezingTemp, meltingTemp, solid, liquid, gas };
+    Material currentMaterial = { bounciness, weight, ice, freezingTemp, meltingTemp, solid, liquid, gas, R, G, B };
 
-    this->particles.push_back(new Particle(&currentMaterial));
+    this->particles.push_back(new Particle(pos, currentMaterial));
   }
-  void addParticle(std::string name){
+  void addParticle(sf::Vector2f pos, std::string name){
     int index = this->particles.size();
-    Material* currentMaterial;
+    Material currentMaterial;
 
     for(int i = 0; i < this->materials.size(); i++){
       if(this->materialNames[i] == name)
-        currentMaterial = this->materials[i];
+        currentMaterial = *this->materials[i];
     }
 
-    this->particles.push_back(new Particle(currentMaterial));
+    this->particles.push_back(new Particle(pos, currentMaterial));
   }
-  void update(){
+  void update(float deltaTime){
     // Loop through each particle
     for(int i = 0; i < this->particles.size(); i++){
       // Initialize varibles to make positions and stuff easier
       sf::Vector2f particlePos = this->particles[i]->getPos();
       sf::Vector2f particleVel = this->particles[i]->getVel();
       sf::Vector2f particleProj = this->particles[i]->getProjection();
-      Material* particleMat = this->particles[i]->getMaterial();
+      Material particleMat = this->particles[i]->getMaterial();
+      float particleRad = this->particles[i]->getRadius();
+
+      sf::Vector2f newVel = particleVel;
+
+      // Gravity calculations
+      newVel.y += this->gravity * particleMat.weight;
 
       // Window boundaries
+      // X collided left
+      if(particleProj.x <= 0 + particleRad)
+        newVel.x = 0;
+      // X collided right
+      if(particleProj.x >= WINDOW_WIDTH - particleRad)
+        newVel.x = 0;
+      // Y collided up
+      if(particleProj.y <= 0 + particleRad)
+        newVel.y = 0;
+      // Y collided down
+      if(particleProj.y >= WINDOW_HEIGHT - particleRad)
+        newVel.y = 0;
+
+      // Move the particle to the new position
+      this->particles[i]->setPos(particlePos + newVel);
     }
+  }
+  void drawParticles(sf::RenderWindow* window, sf::Texture texture){
+    for(int i = 0; i < this->particles.size(); i++)
+      this->particles[i]->render(window, texture);
   }
 };

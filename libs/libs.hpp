@@ -3,18 +3,22 @@
 // Only include once
 #pragma once
 
+// Define settings
+#define WINDOW_WIDTH 720
+#define WINDOW_HEIGHT 480
+#define WINDOW_TITLE "ParticleSimulation"
+
 // Data structures
 struct Material {
   float bounciness;
   float weight;
   float ice;
 
-  float freezingTemp;
-  float meltingTemp;
+  float freezingTemp, meltingTemp;
 
-  bool solid;
-  bool liquid;
-  bool gas;
+  bool solid, liquid, gas;
+
+  float R, G, B;
 };
 
 // Libraries

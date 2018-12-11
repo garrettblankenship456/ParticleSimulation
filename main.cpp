@@ -13,9 +13,6 @@
 
 // Preprocessor
 #include "libs/libs.hpp"
-#define WINDOW_WIDTH 720
-#define WINDOW_HEIGHT 480
-#define WINDOW_TITLE "ParticleSimulation"
 
 // Main function
 int main(){
@@ -31,7 +28,12 @@ int main(){
   std::vector<Particle*> particles;
 
   // Initialize physics engine
-  Physics physics();
+  Physics physics(particles, 1.f, 1.f, 1.f);
+  physics.addParticleCustom(sf::Vector2f(15, 15));
+
+  // Make a sprite for the particle to use
+  sf::Texture texture;
+  texture.loadFromFile("textures/particle.png");
 
   // Keep looping until the window is closed
   while(window.isOpen()){
@@ -47,8 +49,12 @@ int main(){
         mousePos = sf::Mouse::getPosition(window);
     }
 
+    // Update the physics
+    physics.update(deltaTime.asSeconds());
+
     // Rendering
     window.clear();
+    physics.drawParticles(&window, texture);
     window.display();
 
     // Get the delta time
