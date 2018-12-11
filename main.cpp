@@ -10,9 +10,16 @@
     Create a physics engine class (done)
     Create an easy rendering engine to layer over SFML (I am lazy) (done)
 
-    Add physics to be accumulative instead of instant force to set location
-    Add physics to have the speeds be more realistic
+    Add physics to be accumulative instead of instant force to set location (done)
+    Add physics to have the speeds be more realistic (done just needs more tweaking)
     Just improve overall physics
+    Add pushing the object back after large acceleration (bounciness implemented)
+    Make values more appealing (make it 2 instead of 0.000001 gravity for example)
+    Alot of tweaking needed since the physics are a bit... violent
+
+    Add other particle collisions
+
+    Refactor code (make it look pretty)
 */
 
 // Preprocessor
@@ -32,7 +39,7 @@ int main(){
   std::vector<Particle*> particles;
 
   // Initialize physics engine
-  Physics physics(particles, 0.00001f, 1.f, 1.f);
+  Physics physics(particles, 0.00001f, 1.001f, 1.f);
   physics.addParticleCustom(sf::Vector2f(15, 15));
 
   // Make a sprite for the particle to use
