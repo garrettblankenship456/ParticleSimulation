@@ -12,15 +12,13 @@
 
     Add physics to be accumulative instead of instant force to set location (done)
     Add physics to have the speeds be more realistic (done just needs more tweaking)
-    Just improve overall physics
     Add pushing the object back after large acceleration (bounciness implemented, done)
     Make values more appealing (make it 2 instead of 0.000001 gravity for example) (done)
-    Alot of tweaking needed since the physics are a bit... violent
-
+    
+    Alot of tweaking needed since the physics are a bit... violent (sort of done)
+    Just improve overall physics
     Add other particle collisions
-
     Refactor code (make it look pretty)
-
     Tweak delta time
 */
 

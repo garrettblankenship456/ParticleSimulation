@@ -136,9 +136,7 @@ public:
 
       // Calculate air resistance
       newVel.y /= this->resistance;
-
-      std::cout << newVel.y << std::endl;
-
+      
       // Move the particle to the new position
       this->particles[i]->setPos(particlePos + newVel);
       this->particles[i]->setVel(newVel);
