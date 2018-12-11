@@ -23,6 +23,7 @@ public:
     this->radius = radius;
 
     this->position = pos;
+    this->velocity = sf::Vector2f(0, 0);
 
     this->sprite = new sf::Sprite;
   }

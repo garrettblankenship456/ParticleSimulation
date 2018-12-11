@@ -4,11 +4,15 @@
 
 /* TODO/PLAN:
     Initialize SFML window (done)
-    Basic manipulation of pixels/particles
-    Introduce basic data structures and physics engines
-    Create a particle class
-    Create a physics engine class
-    Create an easy rendering engine to layer over SFML (I am lazy)
+    Basic manipulation of pixels/particles (done)
+    Introduce basic data structures and physics engines (done)
+    Create a particle class (done)
+    Create a physics engine class (done)
+    Create an easy rendering engine to layer over SFML (I am lazy) (done)
+
+    Add physics to be accumulative instead of instant force to set location
+    Add physics to have the speeds be more realistic
+    Just improve overall physics
 */
 
 // Preprocessor
@@ -28,7 +32,7 @@ int main(){
   std::vector<Particle*> particles;
 
   // Initialize physics engine
-  Physics physics(particles, 1.f, 1.f, 1.f);
+  Physics physics(particles, 0.00001f, 1.f, 1.f);
   physics.addParticleCustom(sf::Vector2f(15, 15));
 
   // Make a sprite for the particle to use

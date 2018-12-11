@@ -44,7 +44,7 @@ public:
   inline float getSpeed(){ return this->speed; }
 
   // Public functions
-  void addParticleCustom(sf::Vector2f pos, float weight = 1.f, float bounciness = 1.f, float ice = 1.f, bool solid = true, bool liquid = false, bool gas = false, float freezingTemp = 1.f, float meltingTemp = 1.f, float R = 0.f, float G = 0.f, float B = 0.f){
+  void addParticleCustom(sf::Vector2f pos, float weight = 1.f, float bounciness = 500.f, float ice = 1.f, bool solid = true, bool liquid = false, bool gas = false, float freezingTemp = 1.f, float meltingTemp = 1.f, float R = 0.f, float G = 0.f, float B = 0.f){
     int index = this->particles.size();
     Material currentMaterial = { bounciness, weight, ice, freezingTemp, meltingTemp, solid, liquid, gas, R, G, B };
 
@@ -61,6 +61,8 @@ public:
 
     this->particles.push_back(new Particle(pos, currentMaterial));
   }
+
+    float x = 1.1;
   void update(float deltaTime){
     // Loop through each particle
     for(int i = 0; i < this->particles.size(); i++){
@@ -74,24 +76,36 @@ public:
       sf::Vector2f newVel = particleVel;
 
       // Gravity calculations
-      newVel.y += this->gravity * particleMat.weight;
+      float additive = pow(newVel.y + (this->gravity * particleMat.weight), 1.00000001);
+      if(std::isnan(additive))
+        newVel.y = 0;
+      else
+        newVel.y = additive;
+
+      x = pow(x, 1.001);
+      std::cout << newVel.y << std::endl;
 
       // Window boundaries
       // X collided left
-      if(particleProj.x <= 0 + particleRad)
-        newVel.x = 0;
+      if(particleProj.x < 0 + particleRad){
+        newVel.x = -newVel.x * particleMat.bounciness;
+      }
       // X collided right
-      if(particleProj.x >= WINDOW_WIDTH - particleRad)
-        newVel.x = 0;
+      if(particleProj.x > WINDOW_WIDTH - particleRad){
+        newVel.x = -newVel.x * particleMat.bounciness;
+      }
       // Y collided up
-      if(particleProj.y <= 0 + particleRad)
-        newVel.y = 0;
+      if(particleProj.y < 0 + particleRad){
+        newVel.y = -newVel.y * particleMat.bounciness;
+      }
       // Y collided down
-      if(particleProj.y >= WINDOW_HEIGHT - particleRad)
-        newVel.y = 0;
+      if(particleProj.y > WINDOW_HEIGHT - particleRad){
+        newVel.y = -newVel.y * particleMat.bounciness;
+      }
 
       // Move the particle to the new position
       this->particles[i]->setPos(particlePos + newVel);
+      this->particles[i]->setVel(newVel);
     }
   }
   void drawParticles(sf::RenderWindow* window, sf::Texture texture){
