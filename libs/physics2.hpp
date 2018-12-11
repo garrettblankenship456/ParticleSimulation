@@ -50,8 +50,8 @@ public:
   Physics(std::vector<Particle*> particles, float gravity = 1.f, float resistance = 1.f, float speed = 1.f){
     // Initialize the private variables
     this->particles = particles;
-    this->gravity = gravity;
-    this->resistance = resistance;
+    this->gravity = gravity + 0.00001f;
+    this->resistance = resistance + 0.001f;
     this->speed = speed;
   }
 
@@ -72,7 +72,7 @@ public:
   inline float getSpeed(){ return this->speed; }
 
   // Public functions
-  void addParticleCustom(sf::Vector2f pos, float weight = 0.5f, float bounciness = 0.15f, float ice = 1.f, bool solid = true, bool liquid = false, bool gas = false, float freezingTemp = 1.f, float meltingTemp = 1.f, float R = 0.f, float G = 0.f, float B = 0.f){
+  void addParticleCustom(sf::Vector2f pos, float weight = 0.5f, float bounciness = 0.15f, float ice = 1.f, bool solid = true, bool liquid = false, bool gas = false, float freezingTemp = 1.f, float meltingTemp = 1.f, float R = 255.f, float G = 255.f, float B = 255.f){
     int index = this->particles.size();
     Material currentMaterial = { bounciness, weight, ice, freezingTemp, meltingTemp, solid, liquid, gas, R, G, B };
 
@@ -108,7 +108,7 @@ public:
       sf::Vector2f newVel = particleVel;
 
       // Gravity calculations
-      float additive = pow(((newVel.y + 1) + this->gravity) * particleMat.weight, 1.000001) / 100; // Make gravity exponential
+      float additive = ((pow(((abs(newVel.y) + 1) + this->gravity) * particleMat.weight, 1.000001) / 10) * 60) * deltaTime; // Make gravity exponential
       if(!std::isnan(additive))
         newVel.y += additive;
 

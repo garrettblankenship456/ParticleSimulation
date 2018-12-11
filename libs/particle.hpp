@@ -49,6 +49,7 @@ public:
   // Public functions
   void render(sf::RenderWindow* window, sf::Texture texture){
     this->sprite->setTexture(texture);
+    this->sprite->setColor(sf::Color(this->material.R, this->material.G, this->material.B));
     this->sprite->setPosition(this->position);
 
     window->draw(*sprite);

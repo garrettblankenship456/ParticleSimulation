@@ -13,13 +13,15 @@
     Add physics to be accumulative instead of instant force to set location (done)
     Add physics to have the speeds be more realistic (done just needs more tweaking)
     Just improve overall physics
-    Add pushing the object back after large acceleration (bounciness implemented)
-    Make values more appealing (make it 2 instead of 0.000001 gravity for example)
+    Add pushing the object back after large acceleration (bounciness implemented, done)
+    Make values more appealing (make it 2 instead of 0.000001 gravity for example) (done)
     Alot of tweaking needed since the physics are a bit... violent
 
     Add other particle collisions
 
     Refactor code (make it look pretty)
+
+    Tweak delta time
 */
 
 // Preprocessor
@@ -39,8 +41,10 @@ int main(){
   std::vector<Particle*> particles;
 
   // Initialize physics engine
-  Physics physics(particles, 0.00001f, 1.001f, 1.f);
-  physics.addParticleCustom(sf::Vector2f(15, 15));
+  Physics physics(particles, 1.f, 1.f, 1.f);
+  //Physics physics(particles, 0.00001f, 1.f, 1.f);
+  for(int i = 0; i < 10; i++)
+    physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15 + (5 * i)));
 
   // Make a sprite for the particle to use
   sf::Texture texture;
