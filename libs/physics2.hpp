@@ -89,6 +89,9 @@ public:
 
     this->particles.push_back(new Particle(pos, currentMaterial));
   }
+  void pushParticle(int id, sf::Vector2f vel){
+    this->particles[id]->setVel(vel);
+  }
   void update(float deltaTime){
     // Loop through each particle
     for(int i = 0; i < this->particles.size(); i++){
@@ -134,9 +137,68 @@ public:
         particlePos.y = WINDOW_HEIGHT - particleRad;
       }
 
+      // Particle-particle collisions (AABB)
+      // Loop through every other particle
+      for(int k = 0; k < this->particles.size(); k++){
+        // Skip if the particle is the same one
+        if(k == i)
+          continue;
+
+        // Initialize varibles to make positions and stuff easier
+        sf::Vector2f particleTargetPos = this->particles[k]->getPos();
+        sf::Vector2f particleTargetVel = this->particles[k]->getVel();
+
+        Direction targetDir = this->getProjDirection(particleTargetVel);
+        float targetLeftright = (targetDir.left == false && targetDir.right == true) ? 1 : -1;
+        float targetUpdown = (targetDir.down == false && targetDir.up == true) ? 1 : -1;
+
+        sf::Vector2f particleTargetProj(particleTargetPos.x + targetLeftright, particleTargetPos.y + targetUpdown);
+
+        Material particleTargetMat = this->particles[k]->getMaterial();
+        float particleTargetRad = this->particles[k]->getRadius();
+
+        sf::Vector2f newTargetVel = particleTargetVel;
+
+        // Actually check for the collisions
+        Direction sideHit = { false, false, false, false };
+        sf::Vector2f distance = sf::Vector2f(abs(particleProj.x - particleTargetProj.x), abs(particleProj.y - particleTargetProj.y));
+
+        // X Collisions
+        /*if(particleProj.x <= particleTargetProj.x)
+          sideHit.left = true;
+        if(particleProj.x >= particleTargetProj.x)
+          sideHit.right = true;
+        // Y Collisions
+        if(particleProj.y <= particleTargetProj.y)
+          sideHit.down = true;
+        if(particleProj.y >= particleTargetProj.y)
+          sideHit.up = true;*/
+
+        // X Collisions
+        if(distance.x >= 0 && distance.x <= particleRad)
+          sideHit.left = true;
+        if(distance.x >= 0 && distance.x <= particleRad)
+          sideHit.right = true;
+        // Y Collisions
+        if(distance.y >= 0 && distance.y <= particleRad)
+          sideHit.down = true;
+        if(distance.y >= 0 && distance.y <= particleRad)
+          sideHit.up = true;
+
+        bool inrange = ((sideHit.up == true && sideHit.down == true) && (sideHit.left == true && sideHit.right == true));
+
+        // If the other particle was actually hit
+        if(inrange == true){
+          newTargetVel.x = newTargetVel.x + newVel.x;
+          newVel.x = -newVel.x * particleMat.bounciness;
+        }
+
+        this->particles[k]->setVel(newTargetVel);
+      }
+
       // Calculate air resistance
       newVel.y /= this->resistance;
-      
+
       // Move the particle to the new position
       this->particles[i]->setPos(particlePos + newVel);
       this->particles[i]->setVel(newVel);

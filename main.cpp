@@ -14,7 +14,7 @@
     Add physics to have the speeds be more realistic (done just needs more tweaking)
     Add pushing the object back after large acceleration (bounciness implemented, done)
     Make values more appealing (make it 2 instead of 0.000001 gravity for example) (done)
-    
+
     Alot of tweaking needed since the physics are a bit... violent (sort of done)
     Just improve overall physics
     Add other particle collisions
@@ -40,9 +40,9 @@ int main(){
 
   // Initialize physics engine
   Physics physics(particles, 1.f, 1.f, 1.f);
-  //Physics physics(particles, 0.00001f, 1.f, 1.f);
-  for(int i = 0; i < 10; i++)
-    physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15 + (5 * i)));
+  for(int i = 0; i < 3; i++)
+    physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15));
+    //physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15 + (5 * i)));
 
   // Make a sprite for the particle to use
   sf::Texture texture;
@@ -60,6 +60,14 @@ int main(){
       // If the mouse was moved update the variable
       if(event.type == sf::Event::MouseMoved)
         mousePos = sf::Mouse::getPosition(window);
+    }
+
+    // Check if the player clicked something
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+      physics.pushParticle(1, sf::Vector2f(1, 0));
+    }
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Right)){
+      physics.pushParticle(0, sf::Vector2f(1, 0));
     }
 
     // Update the physics
