@@ -17,9 +17,13 @@
 
     Alot of tweaking needed since the physics are a bit... violent (sort of done)
     Just improve overall physics
-    Add other particle collisions
+    Add other particle collisions (done)
     Refactor code (make it look pretty)
     Tweak delta time
+    Add better collision physics like pushing down heavier objects
+    Add fluids
+    Add gases
+    Add states of matter
 */
 
 // Preprocessor
@@ -41,8 +45,8 @@ int main(){
   // Initialize physics engine
   Physics physics(particles, 1.f, 1.f, 1.f);
   for(int i = 0; i < 3; i++)
-    physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15));
-    //physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15 + (5 * i)));
+    //physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15));
+    physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15 + (5 * i)));
 
   // Make a sprite for the particle to use
   sf::Texture texture;

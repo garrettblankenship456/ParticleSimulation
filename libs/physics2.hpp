@@ -189,15 +189,15 @@ public:
 
         // If the other particle was actually hit
         if(inrange == true){
-          newTargetVel.x = newTargetVel.x + newVel.x;
-          newVel.x = -newVel.x * particleMat.bounciness;
+          newTargetVel += newVel;
+          newVel = -newVel * particleMat.bounciness;
         }
 
         this->particles[k]->setVel(newTargetVel);
       }
 
       // Calculate air resistance
-      newVel.y /= this->resistance;
+      newVel /= this->resistance;
 
       // Move the particle to the new position
       this->particles[i]->setPos(particlePos + newVel);
