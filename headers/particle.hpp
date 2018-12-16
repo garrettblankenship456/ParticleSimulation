@@ -7,6 +7,7 @@ private:
   sf::Vector2f maxVelocity;
   Material material;
   float temp;
+  stateOfMatter state;
 
 public:
   Particle(float size, sf::Vector2f position, Material material){
@@ -17,6 +18,8 @@ public:
     this->maxVelocity = sf::Vector2f(10000, 10000);
 
     this->temp = 10;
+
+    this->state = SOLID;
 
     shape->setPosition(position);
   }
@@ -92,6 +95,20 @@ public:
     material.R = 255;
     material.G = 255 - temp;
     material.B = 255 - temp;
+
+    // If you can go solid
+    if(material.solid == true && temp < material.freezingTemp){
+      state = SOLID;
+    }
+    // If you can go liquid
+    if(material.liquid == true && temp > material.meltingTemp && temp < material.vaporTemp){
+      state = LIQUID;
+    }
+    // If you can go gas
+    if(material.gas == true && temp > material.vaporTemp){
+      state = GAS;
+    }
+    std::cout << state << std::endl;
 
     shape->move(velocity);
   }

@@ -14,12 +14,15 @@ struct Material {
   float weight;
   float ice;
 
-  float freezingTemp, meltingTemp;
+  float freezingTemp, meltingTemp, vaporTemp;
 
   bool solid, liquid, gas;
 
   float R, G, B;
 };
+
+// Enumerators
+enum stateOfMatter { SOLID, LIQUID, GAS };
 
 // Libraries
 #include <SFML/Graphics.hpp>

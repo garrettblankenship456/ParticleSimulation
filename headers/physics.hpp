@@ -9,7 +9,7 @@ private:
 
 public:
   Physics(float gravity, float ambient){
-    this->defaultMaterial = { 0.22f, 1.f, 0.015f, 0.f, 100.f, true, false, false, 255, 255, 255 };
+    this->defaultMaterial = { 0.22f, 1.f, 0.015f, 0.f, 100.f, 255.f, true, true, true, 255, 255, 255 };
     this->gravity = gravity;
     this->ambient = ambient;
   }
@@ -63,6 +63,9 @@ public:
       particle->checkWindowCollision();
 
       particle->update();
+
+      /*if(particleTemp >= 255)
+        particles.erase(particles.begin() + i);*/
     }
   }
   void drawParticles(sf::RenderWindow& window){

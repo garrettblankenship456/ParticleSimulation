@@ -2,7 +2,7 @@
 
 /* TODO:
     Tweak Physics (done)
-    Add different states of matter
+    Add different states of matter (done just needs incorperating)
     Fix the particles being able to exit world (done)
     Fix the particles bounding box being to big (done)
     Fix particles liking to go into the bottom right corner
