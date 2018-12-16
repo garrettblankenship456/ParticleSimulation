@@ -7,6 +7,8 @@
     Fix the particles bounding box being to big (done)
     Fix particles liking to go into the bottom right corner
     Add tempature radiance, or transferring tempature from one particle to the other
+    Add more comments
+    Add more materials
 */
 
 // Preprocessor
@@ -21,8 +23,8 @@ int main(){
   // Setup particles
   Physics physics(10.f, 10.f);
   float ballRad = 10;
-  physics.addParticle(ballRad, sf::Vector2f(50, 200));
-  physics.addParticle(ballRad, sf::Vector2f(60, 149));
+  physics.addParticle(ballRad, sf::Vector2f(50, 200), DEFAULT_MAT);
+  physics.addParticle(ballRad, sf::Vector2f(60, 149), DEFAULT_MAT);
 
   // Initialize clock
   float deltaTime = 0.f;
@@ -42,7 +44,7 @@ int main(){
 
       if(event.type == sf::Event::MouseMoved)
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-          physics.addParticle(ballRad, sf::Vector2f(sf::Mouse::getPosition(window)));
+          physics.addParticle(ballRad, sf::Vector2f(sf::Mouse::getPosition(window)), AIR_MAT);
     }
 
     // Update physics

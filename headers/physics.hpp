@@ -18,8 +18,8 @@ public:
       delete particles[i];
   }
 
-  void addParticle(float size, sf::Vector2f position){
-    particles.push_back(new Particle(size, position, defaultMaterial));
+  void addParticle(float size, sf::Vector2f position, Material mat){
+    particles.push_back(new Particle(size, position, mat));
   }
 
   void update(float deltaTime){
@@ -55,7 +55,7 @@ public:
           && (position.y + radius) + velocity.y + radius >= otherPosition.y + (otherVelocity.y + otherRadius) - otherRadius && (position.y + radius) + velocity.y - radius <= (otherPosition.y + otherRadius) + velocity.y + otherRadius){
             particle->addVelocity(sf::Vector2f((-velocity.x + (distance.x / 4)) * particle->getMaterial().bounciness, (-velocity.y + (distance.y / 4)) * particle->getMaterial().bounciness));
             particle->move(sf::Vector2f(velocity.x, velocity.y));
-            particle->setTemp(particleTemp + 1);
+            particle->setTemp(particleTemp + 0.01f);
           }
         }
       }

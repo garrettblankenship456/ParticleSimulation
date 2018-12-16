@@ -34,5 +34,6 @@ enum stateOfMatter { SOLID, LIQUID, GAS };
 #include <unistd.h>
 
 // Classes
+#include "materialPresets.hpp"
 #include "particle.hpp"
 #include "physics.hpp"
