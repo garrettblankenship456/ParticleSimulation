@@ -78,10 +78,14 @@ public:
     sf::Vector2f position = shape->getPosition();
     float radius = shape->getRadius();
 
-    if(position.x + velocity.x <= 0 || position.x + (radius * 2) + velocity.x >= WINDOW_WIDTH)
+    if(position.x + velocity.x <= 0 || position.x + (radius * 2) + velocity.x >= WINDOW_WIDTH){
+      shape->move(-velocity);
       velocity.x = -velocity.x * material.bounciness;
-    if(position.y + velocity.y <= 0 || position.y + (radius * 2) + velocity.y >= WINDOW_HEIGHT)
+    }
+    if(position.y + velocity.y <= 0 || position.y + (radius * 2) + velocity.y >= WINDOW_HEIGHT){
+      shape->move(-velocity);
       velocity.y = -velocity.y * material.bounciness;
+    }
   }
 
   void update(){

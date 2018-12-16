@@ -37,8 +37,6 @@ public:
       particle->addVelocity(sf::Vector2f(0, (gravity * particle->getMaterial().weight)) * deltaTime);
       particle->addVelocity(sf::Vector2f(particle->getVelocity() * -particle->getMaterial().ice));
 
-      particle->checkWindowCollision();
-
       for(int k = 0; k < particles.size(); k++){
         if(k != i){
           sf::Vector2f position = particle->getPosition();
@@ -55,11 +53,14 @@ public:
 
           if((position.x + radius) + velocity.x + radius >= (otherPosition.x + otherRadius) + otherVelocity.x - otherRadius && (position.x + radius) + velocity.x - radius <= (otherPosition.x + otherRadius) + velocity.x + otherRadius
           && (position.y + radius) + velocity.y + radius >= otherPosition.y + (otherVelocity.y + otherRadius) - otherRadius && (position.y + radius) + velocity.y - radius <= (otherPosition.y + otherRadius) + velocity.y + otherRadius){
-            particle->addVelocity(sf::Vector2f((-velocity.x + (distance.x / 2)) * particle->getMaterial().bounciness, (-velocity.y + (distance.y / 2)) * particle->getMaterial().bounciness));
-            particle->setTemp(particleTemp + 5);
+            particle->addVelocity(sf::Vector2f((-velocity.x + (distance.x / 4)) * particle->getMaterial().bounciness, (-velocity.y + (distance.y / 4)) * particle->getMaterial().bounciness));
+            particle->move(sf::Vector2f(velocity.x, velocity.y));
+            particle->setTemp(particleTemp + 1);
           }
         }
       }
+
+      particle->checkWindowCollision();
 
       particle->update();
     }
