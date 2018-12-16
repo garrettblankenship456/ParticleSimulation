@@ -1,59 +1,35 @@
 // Main file
 
-// Will fill this out tomarrow
-
-/* TODO/PLAN:
-    Initialize SFML window (done)
-    Basic manipulation of pixels/particles (done)
-    Introduce basic data structures and physics engines (done)
-    Create a particle class (done)
-    Create a physics engine class (done)
-    Create an easy rendering engine to layer over SFML (I am lazy) (done)
-
-    Add physics to be accumulative instead of instant force to set location (done)
-    Add physics to have the speeds be more realistic (done just needs more tweaking)
-    Add pushing the object back after large acceleration (bounciness implemented, done)
-    Make values more appealing (make it 2 instead of 0.000001 gravity for example) (done)
-
-    Alot of tweaking needed since the physics are a bit... violent (sort of done)
-    Just improve overall physics
-    Add other particle collisions (done)
-    Refactor code (make it look pretty)
-    Tweak delta time
-    Add better collision physics like pushing down heavier objects
-    Add fluids
-    Add gases
-    Add states of matter
+/* TODO:
+    Tweak Physics
+    Add different states of matter
+    Fix the particles being able to exit world
+    Fix the particles bounding box being to big
 */
 
 // Preprocessor
-#include "libs/libs.hpp"
+#include "headers/libs.hpp"
 
 // Main function
 int main(){
   // Initialize SFML window
   sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE);
+  window.setFramerateLimit(60);
 
-  // Initialize variables
-  sf::Clock deltaClock;
-  sf::Time deltaTime;
-  sf::Vector2i mousePos;
+  // Setup particles
+  Physics physics(10.f, 10.f);
+  physics.addParticle(25, sf::Vector2f(50, 200));
+  physics.addParticle(25, sf::Vector2f(60, 149));
 
-  // Initialize particles
-  std::vector<Particle*> particles;
-
-  // Initialize physics engine
-  Physics physics(particles, 1.f, 1.f, 1.f);
-  for(int i = 0; i < 3; i++)
-    //physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15));
-    physics.addParticleCustom(sf::Vector2f(15 + (5 * i), 15 + (5 * i)));
-
-  // Make a sprite for the particle to use
-  sf::Texture texture;
-  texture.loadFromFile("textures/particle.png");
+  // Initialize clock
+  float deltaTime = 0.f;
+  sf::Clock clock;
 
   // Keep looping until the window is closed
   while(window.isOpen()){
+    // Set delta time
+    deltaTime = clock.restart().asSeconds();
+
     // Poll for events
     sf::Event event;
     while(window.pollEvent(event)){
@@ -61,29 +37,17 @@ int main(){
       if(event.type == sf::Event::Closed)
         window.close();
 
-      // If the mouse was moved update the variable
-      if(event.type == sf::Event::MouseMoved)
-        mousePos = sf::Mouse::getPosition(window);
+      if(event.type == sf::Event::MouseButtonPressed)
+        physics.addParticle(10, sf::Vector2f(sf::Mouse::getPosition(window)));
     }
 
-    // Check if the player clicked something
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-      physics.pushParticle(1, sf::Vector2f(1, 0));
-    }
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Right)){
-      physics.pushParticle(0, sf::Vector2f(1, 0));
-    }
-
-    // Update the physics
-    physics.update(deltaTime.asSeconds());
+    // Update physics
+    physics.update(deltaTime);
 
     // Rendering
     window.clear();
-    physics.drawParticles(&window, texture);
+    physics.drawParticles(window);
     window.display();
-
-    // Get the delta time
-    deltaTime = deltaClock.restart();
   }
 
   // Exit gracefully

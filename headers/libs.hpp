@@ -31,5 +31,4 @@ struct Material {
 
 // Classes
 #include "particle.hpp"
-//#include "physics.hpp"
-#include "physics2.hpp"
+#include "physics.hpp"
