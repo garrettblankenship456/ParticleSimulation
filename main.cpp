@@ -6,6 +6,7 @@
     Fix the particles being able to exit world (done)
     Fix the particles bounding box being to big (done)
     Fix particles liking to go into the bottom right corner
+    Add tempature radiance, or transferring tempature from one particle to the other
 */
 
 // Preprocessor

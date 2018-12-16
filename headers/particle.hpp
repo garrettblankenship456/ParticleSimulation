@@ -6,6 +6,7 @@ private:
   sf::Vector2f velocity;
   sf::Vector2f maxVelocity;
   Material material;
+  Material originalMaterial;
   float temp;
   stateOfMatter state;
 
@@ -13,6 +14,7 @@ public:
   Particle(float size, sf::Vector2f position, Material material){
     this->shape = new sf::CircleShape(size);
     this->material = material;
+    this->originalMaterial = material;
 
     this->velocity = sf::Vector2f(0, 0);
     this->maxVelocity = sf::Vector2f(10000, 10000);
@@ -108,7 +110,16 @@ public:
     if(material.gas == true && temp > material.vaporTemp){
       state = GAS;
     }
-    std::cout << state << std::endl;
+    // Different effects for each state
+    if(state == SOLID){
+      material.weight = originalMaterial.weight;
+    }
+    if(state == LIQUID){
+      material.weight = originalMaterial.weight * 1.5;
+    }
+    if(state == GAS){
+      material.weight = -0.1f;
+    }
 
     shape->move(velocity);
   }
