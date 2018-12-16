@@ -9,6 +9,9 @@
     Add tempature radiance, or transferring tempature from one particle to the other
     Add more comments
     Add more materials
+    Make it bounce like a sphere (done)
+    Fix balls falling through the world
+    Tweak bounce speed
 */
 
 // Preprocessor
@@ -21,10 +24,11 @@ int main(){
   window.setFramerateLimit(60);
 
   // Setup particles
+  //Physics physics(10.f, 10.f);
   Physics physics(10.f, 10.f);
   float ballRad = 10;
   physics.addParticle(ballRad, sf::Vector2f(50, 200), DEFAULT_MAT);
-  physics.addParticle(ballRad, sf::Vector2f(60, 149), DEFAULT_MAT);
+  physics.addParticle(ballRad, sf::Vector2f(71, 200), DEFAULT_MAT);
 
   // Initialize clock
   float deltaTime = 0.f;
@@ -42,9 +46,8 @@ int main(){
       if(event.type == sf::Event::Closed)
         window.close();
 
-      if(event.type == sf::Event::MouseMoved)
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-          physics.addParticle(ballRad, sf::Vector2f(sf::Mouse::getPosition(window)), AIR_MAT);
+      if(event.type == sf::Event::MouseButtonReleased)
+        physics.addParticle(ballRad, sf::Vector2f(sf::Mouse::getPosition(window)), DEFAULT_MAT);
     }
 
     // Update physics

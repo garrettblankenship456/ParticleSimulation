@@ -83,12 +83,15 @@ public:
     sf::Vector2f position = shape->getPosition();
     float radius = shape->getRadius();
 
+    float xDirection = (velocity.x > 0) ? 1 : (velocity.x < 0) ? -1 : 0;
+    float yDirection = (velocity.y > 0) ? 1 : (velocity.y < 0) ? -1 : 0;
+
     if(position.x + velocity.x <= 0 || position.x + (radius * 2) + velocity.x >= WINDOW_WIDTH){
-      shape->move(-velocity);
+      //shape->move(-xDirection, 0);
       velocity.x = -velocity.x * material.bounciness;
     }
     if(position.y + velocity.y <= 0 || position.y + (radius * 2) + velocity.y >= WINDOW_HEIGHT){
-      shape->move(-velocity);
+      //shape->move(0, -yDirection);
       velocity.y = -velocity.y * material.bounciness;
     }
   }
