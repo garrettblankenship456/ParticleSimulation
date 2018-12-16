@@ -4,7 +4,7 @@
     Tweak Physics
     Add different states of matter
     Fix the particles being able to exit world
-    Fix the particles bounding box being to big
+    Fix the particles bounding box being to big (done)
 */
 
 // Preprocessor

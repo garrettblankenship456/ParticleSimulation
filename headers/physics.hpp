@@ -23,7 +23,7 @@ public:
   }
 
   void update(float deltaTime){
-    std::cout << deltaTime << std::endl;
+    //std::cout << deltaTime << std::endl;
     for(int i = 0; i < particles.size(); i++){
       Particle* particle = particles[i];
 
@@ -53,8 +53,8 @@ public:
             position.y - otherPosition.y
           );
 
-          if(position.x + velocity.x + radius >= otherPosition.x + otherVelocity.x - otherRadius && position.x + velocity.x - radius <= otherPosition.x + velocity.x + otherRadius
-          && position.y + velocity.y + radius >= otherPosition.y + otherVelocity.y - otherRadius && position.y + velocity.y - radius <= otherPosition.y + velocity.y + otherRadius){
+          if((position.x + radius) + velocity.x + radius >= (otherPosition.x + otherRadius) + otherVelocity.x - otherRadius && (position.x + radius) + velocity.x - radius <= (otherPosition.x + otherRadius) + velocity.x + otherRadius
+          && (position.y + radius) + velocity.y + radius >= otherPosition.y + (otherVelocity.y + otherRadius) - otherRadius && (position.y + radius) + velocity.y - radius <= (otherPosition.y + otherRadius) + velocity.y + otherRadius){
             particle->addVelocity(sf::Vector2f((-velocity.x + (distance.x / 2)) * particle->getMaterial().bounciness, (-velocity.y + (distance.y / 2)) * particle->getMaterial().bounciness));
             particle->setTemp(particleTemp + 5);
           }

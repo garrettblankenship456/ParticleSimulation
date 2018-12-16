@@ -28,6 +28,7 @@ struct Material {
 #include <vector>
 #include <cmath>
 #include <cfloat>
+#include <unistd.h>
 
 // Classes
 #include "particle.hpp"

@@ -88,7 +88,6 @@ public:
     material.R = 255;
     material.G = 255 - temp;
     material.B = 255 - temp;
-    std::cout << temp << std::endl;
 
     shape->move(velocity);
   }
